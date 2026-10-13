@@ -1,10 +1,105 @@
+---
+title: "AGENTS"
+version: "0.1.0"
+author: "Double FW"
+date: "2026-10-13"
+license: "See LICENSE"
+language: "en"
+repository: "Double-FW/Accessible-Design-Code-and-Testing-RAG-Template"
+artifact_type: "policy_document"
+use_case:
+  - "accessibility-first-code-generation"
+  - "pipeline-integration"
+  - "human-in-the-loop-escalation"
+entities:
+  - "design-system"
+  - "behavior-contract"
+  - "component"
+  - "automated-test"
+  - "manual-test"
+  - "human-review"
+---
+
+```yaml name=agents-metadata.yml
+# Machine-readable policy block: agents should parse this reliably.
+policy_versioning:
+  version: "0.1.0"
+  last_reviewed: "2026-10-13"
+  reviewers:
+    - name: "Double FW"
+      role: "owner"
+  changelog:
+    - date: "2026-10-13"
+      changes: "Initial machine-readable metadata, observability and templates added."
+      author: "Double FW"
+observability:
+  audit_events:
+    - "behavior_contract.created"
+    - "implementation.generated"
+    - "test.run"
+    - "human_review.opened"
+    - "human_review.resolved"
+  retention_days: 365
+  redact_fields:
+    - "user_email"
+    - "personal_data"
+  export_format: "jsonl"
+  required_fields_for_escalation:
+    - "task_id"
+    - "artifact_path"
+    - "evidence_url"
+machine_rules:
+  require_yaml_front_matter: true
+  require_behavior_contract_before_code: true
+  treat_axe_as_evidence_not_proof: true
+  escalate_on_missing_label_meaning: true
+```
+
+```json name=decision-graph.json
+{
+  "start": "intake",
+  "nodes": {
+    "intake": { "next": "grounding", "action": "collect-config" },
+    "grounding": {
+      "action": "validate-sources",
+      "on_missing": "request_human_input",
+      "next": "behavior_contract"
+    },
+    "behavior_contract": { "action": "emit-contract", "next": "implement" },
+    "implement": { "action": "generate-code-and-tests", "next": "validate" },
+    "validate": {
+      "action": "run-automated-tests",
+      "on_failure": "open_human_review",
+      "next": "report"
+    },
+    "report": { "action": "publish-report", "end": true },
+    "request_human_input": { "action": "emit-human-prompt", "next": "wait_for_human" }
+  }
+}
+```
+
+```yaml name=templates.yml
+# Short, templated prompts and response payloads agents can emit and parse.
+prompts:
+  behavior_contract_request: |
+    BEHAVIOR-CONTRACT-REQUEST:\
+    component={{component_name}}; scope={{scope}}; required_states={{states}}; expected_roles={{roles}}
+  human_review_notification: |
+    HUMAN_REVIEW: id={{id}}; reason="{{reason}}"; severity={{severity}}; fields={{fields}}; evidence_url={{evidence_url}}
+responses:
+  behavior_contract_response: |
+    BEHAVIOR-CONTRACT: name={{name}}; role={{role}}; keyboard={{yes/no}}; focus={{focus_summary}}; states={{json_states}}; notes={{notes}}
+  human_decision_response: |
+    HUMAN_DECISION: id={{id}}; decision={{approve|revise|reject}}; replacement_text={{text}}; reviewer={{name}}
+```
+
 # AGENTS.md
 
 ## Purpose
 
-This repository is a governance and workflow template for AI-assisted, accessibility-first design and code generation. Agents working here or with this template should behave like pipeline integrators, project managers, and evidence-driven implementers: they must connect source context, product requirements, code generation, testing, reporting, and human escalation.
+This repository is a governance and workflow template for AI-assisted, accessibility-first design and code generation. Agents working here or with this template should behave like pipeline integrat[...]
 
-The project’s priority is to preserve design-system intent, generate accessible behavior correctly, and avoid claiming compliance without evidence. This includes being explicit when human review is required to confirm meaning, appropriateness, or business context.
+The project’s priority is to preserve design-system intent, generate accessible behavior correctly, and avoid claiming compliance without evidence. This includes being explicit when human review [...]
 
 ## Core responsibilities
 
@@ -157,13 +252,10 @@ Before concluding a task, the agent should confirm:
 
 ## Repository-specific note
 
-This repository is a template for governance and AI-assisted generation. When working inside it, prefer durable, reusable process guidance over incidental prompt-level fixes. The goal is repeatable, evidence-based accessibility work that maintains trust across design, code generation, testing, and review.
+This repository is a template for governance and AI-assisted generation. When working inside it, prefer durable, reusable process guidance over incidental prompt-level fixes. The goal is repeatab[...]
 
 ## Summary
 
-Agents operating in this repository should behave as accessibility-aware orchestrators: they must integrate sources, generate code and tests together, maintain traceability, and escalate to human review whenever context, meaning, or compliance judgement requires a real person to confirm intent.
+Agents operating in this repository should behave as accessibility-aware orchestrators: they must integrate sources, generate code and tests together, maintain traceability, and escalate to human[...]
 
 This is especially important for labels, instructions, textual alternatives, and business context where a technically plausible result may still be semantically wrong or inaccessible to the user.
-
-
-
