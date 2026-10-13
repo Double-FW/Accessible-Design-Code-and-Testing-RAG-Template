@@ -143,7 +143,7 @@ This supports a shift-left model: accessibility work starts earlier and becomes 
 
 - [ ] Copy the template into a configured project file.
 - [ ] Load `AGENTS.md` into the agent or RAG context.
-- [ ] Confirm framework, design system, brand constraints and supported platforms.
+- [ ] Confirm framework, design system, brand constraints, trusted accessibility knowledgebases and supported platforms.
 - [ ] Generate a behaviour contract before implementation.
 - [ ] Run automated accessibility and behavioural tests in CI.
 - [ ] Open human-review items for any contextual or label ambiguities.
