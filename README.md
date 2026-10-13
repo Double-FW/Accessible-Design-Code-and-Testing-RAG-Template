@@ -1,310 +1,164 @@
 # Accessible-Design-Code-and-Testing-RAG-Template
 A reusable RAG template that guides AI to generate accessible designs, code and tests, from atomic elements to complete websites. It preserves brand and design-system choices while applying WCAG 2.2 A/AA, axe automation, manual testing and evidence-based conflict resolution.
 
+> NOTE: This repository now includes AGENTS.md — a machine-friendly and human-guidance policy that defines how agents (automated systems and human+AI teams) should operate when using this template. Read AGENTS.md before integrating any agentic workflows.
+
 ## What this repository contains
 
 The core document is:
 
 - [`Accessible_Generation_and_Testing_RAG_Template.md`](./Accessible_Generation_and_Testing_RAG_Template.md)
+- [`AGENTS.md`](./AGENTS.md)
+- [`LICENSE`](./LICENSE)
 
-It is designed to be used as a persistent knowledge and governance document for an AI-assisted design or development conversation. Once configured, it applies a consistent accessibility approach to every interface artefact generated during that chat or workflow.
+The repository is designed to be used as a persistent knowledge and governance document for AI-assisted design or development work. Once configured, it applies a consistent accessibility approach to generated design, code and tests.
 
-The template can govern work at different levels of scale:
+## Why AGENTS.md was added
 
-- a single HTML element;
-- a component or interaction pattern;
-- a page or application view;
-- a multi-step user journey;
-- a complete website or web application;
-- the automated and manual tests associated with any of the above.
+AGENTS.md extends the original template by providing:
 
-## Why it exists
+- YAML front matter and machine-readable policy metadata that automation can parse,
+- prompt and response templates for structured agent behaviour,
+- observability and audit rules for escalations and evidence capture,
+- a quick-start checklist and a minimal decision flow for programmatic pipelines,
+- versioning, review and changelog metadata that can be checked before trusting rules.
 
-AI systems can generate code that looks plausible while missing important accessibility behaviour. They may also:
+This makes it practical for human+AI teams to run repeatable, auditable accessibility workflows and to shift accessibility left in development pipelines.
 
-- treat an automated axe scan as proof of WCAG conformance;
-- apply ARIA without implementing the associated keyboard behaviour;
-- replace an organisation’s approved design patterns with generic examples;
-- overlook loading, error, disabled and expanded states;
-- blur the distinction between WCAG requirements and useful best practices;
-- claim to have tested a screen-reader experience without using a screen reader;
-- generate code and accessibility tests that do not remain aligned.
+## How to complete this template: human, AI, or hybrid
 
-This template reduces those risks by treating accessibility as a behavioural and testable property of the generated design and code.
+The template must be configured with project-specific values before use. The following completion paths are valid, and they can be combined:
 
-## Core outcomes
+### 1. Human-first completion
 
-When used correctly, the template instructs the generating system to:
+- Copy `Accessible_Generation_and_Testing_RAG_Template.md` to a configured project file such as `configured/Accessible_Generation_and_Testing_RAG_Project.md`.
+- Replace all `{{PLACEHOLDER_FIELDS}}` with confirmed project information.
+- Include the project’s framework, design system, tokens, testing stack, browser matrix, product context and escalation owner(s).
+- Maintain a changelog, decision log and exception register.
 
-1. work within the configured JavaScript framework, UX design system, templates, brand system and repository conventions;
-2. preserve approved fonts, colours, icons, layouts, tone of voice and interaction patterns wherever they can support an accessible outcome;
-3. target WCAG 2.2 Level A and Level AA;
-4. treat WCAG Level AAA as outside the required conformance scope;
-5. use native HTML before creating custom ARIA widgets;
-6. produce an accessible behaviour contract before or alongside implementation;
-7. generate automated tests using axe and behavioural assertions;
-8. generate manual tests that do not require a screen reader but inspect screen-reader-relevant foundations;
-9. escalate tests that genuinely require a screen reader rather than guessing the result;
-10. retain traceability between requirements, implementation, tests and evidence.
+### 2. AI-assisted completion
 
-## What the template does not do
+- Give the AI agent access to the project documentation, design-system sources, brand rules, repo conventions and existing tests.
+- Load AGENTS.md and the configured template as persistent context.
+- Ask the agent to draft the configured file, propose behavior contracts, and identify unresolved fields.
+- Require human validation for any field that depends on product meaning, brand interpretation or accessibility judgement.
 
-The template does not guarantee that generated output conforms to WCAG.
+### 3. Hybrid completion (recommended)
 
-It is not:
+This is the most effective model for mature accessibility programmes:
 
-- a replacement for accessibility specialists;
-- a substitute for evaluation by disabled people;
-- a complete accessibility audit;
-- a substitute for testing complete pages and user journeys;
-- proof that an interface works with every browser and assistive-technology combination;
-- permission to describe a product as compliant because axe found no violations.
+- let the AI draft the configuration, behavior contract and implementation skeleton;
+- let human reviewers confirm contextual meaning, labels, wording, and business-approved content;
+- let the AI generate tests and evidence artefacts;
+- let humans approve the final output or request escalation when real assistive-technology validation is needed.
 
-It creates a governed starting point, explicit expectations and a testable evidence structure.
+The important rule is that no automated system should treat a human-sensitive decision as resolved without explicit human approval.
 
-## How design and accessibility are balanced
+## Recommended workflow for human + AI engineering teams
 
-The template does not tell the model to replace an approved design system with generic accessible components.
+### 1. Intake and configuration
 
-When a UX design system exists, the system should:
+Before generating design or code, the team should:
 
-- use its approved components and variants;
-- retain its visual and interaction design;
-- improve the underlying semantics and behaviour;
-- reuse existing APIs and tokens;
-- avoid creating competing local components;
-- report any design-system defect that prevents an accessible result.
+- confirm framework, design system and repository conventions;
+- capture scope, assumptions and constraints;
+- load AGENTS.md and the configured accessibility template into the agent context;
+- identify unknown or unresolved project inputs and keep them visible rather than inventing them.
 
-WCAG 2.2 A/AA defines the minimum accessibility outcome. Brand and design-system rules define how that outcome should be expressed.
-
-If a brand or design-system decision cannot meet an applicable A/AA requirement, the model must not silently redesign the interface or falsely claim compliance. It must verify the conflict, try an implementation-only correction and identify the smallest design decision requiring review.
-
-## Pattern hierarchy
-
-When an approved UX design system exists, it is the primary source for component and visual decisions, subject to the WCAG 2.2 A/AA outcome.
-
-When no design system exists, the template uses this order:
-
-1. native HTML with the least custom behaviour necessary;
-2. [Atomic Accessibility](https://www.atomica11y.com/) guidance;
-3. [BBC GEL Technical Documentation](https://bbc.github.io/gel/) where Atomic Accessibility has a gap or lacks sufficient detail;
-4. the relevant [WAI-ARIA Authoring Practices Guide pattern](https://www.w3.org/WAI/ARIA/apg/patterns/) when a custom widget is necessary;
-5. a documented local pattern when the trusted sources do not address the problem.
-
-Reference patterns guide the implementation. They do not import another organisation’s branding or automatically become production dependencies.
-
-## Trusted sources
-
-The template deliberately uses a limited source set to reduce contradictory or low-quality guidance.
-
-| Source | Primary role |
-|---|---|
-| [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/) | Normative A/AA outcomes and conformance model |
-| [WAI-ARIA APG patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) | Expected behaviour for custom ARIA widgets |
-| [WAI-ARIA APG: Read Me First](https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/) | Native HTML preference and ARIA cautions |
-| [BBC Mobile Accessibility Guidelines](https://www.bbc.co.uk/accessibility/forproducts/guides/mobile/) | Mobile and touch guidance |
-| [BBC HTML Accessibility Guidelines](https://www.bbc.co.uk/accessibility/forproducts/guides/html/) | HTML implementation guidance |
-| [BBC GEL Technical Documentation](https://bbc.github.io/gel/) | Framework-agnostic pattern implementation |
-| [Atomic Accessibility](https://www.atomica11y.com/) | Default component guidance when no design system exists |
-| [TetraLogical Screen Reader HTML Support](https://tetralogical.github.io/screen-reader-HTML-support/) | Browser, operating-system and screen-reader compatibility evidence |
-| [axe-core rule descriptions](https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md) | Automated rule inventory and tags |
-
-These sources do not all carry the same authority. WCAG defines the normative conformance outcome. The others provide implementation guidance, patterns, compatibility evidence or automated checks.
-
-## Quick start
-
-### 1. Copy the template
-
-Add `Accessible_Generation_and_Testing_RAG_Template.md` to the project or knowledge base used by the AI system.
-
-Keep an unchanged master copy if different products will create their own configured versions.
-
-### 2. Complete the project configuration
-
-Replace the `{{PLACEHOLDER_FIELDS}}` with project information, including:
+This should include:
 
 - JavaScript framework and version;
-- rendering and routing approach;
 - UX design system and component catalogue;
-- design tokens and interaction specifications;
-- templates and application shell;
-- brand, typography, colour and icon guidance;
-- tone of voice and content rules;
-- application and test repositories;
+- brand and content rules;
+- design tokens and interaction expectations;
+- supported browsers, devices and assistive technologies;
 - test runner and pinned axe version;
-- supported browser, device and operating-system matrix;
-- high-risk or regulated user journeys;
-- ownership and escalation routes.
+- escalation responsibilities and review owners.
 
-An unknown field should remain visibly unknown until it can be resolved. Do not fill gaps with invented dependencies or conventions.
+### 2. Contract before implementation
 
-### 3. Add it to the AI context
+For each UI element, component or journey, the AI should create a behaviour contract before code is generated. The contract should include:
 
-Provide the configured document as a persistent instruction or RAG source for the design and development conversation.
+- purpose and role;
+- keyboard behaviour;
+- focus management;
+- state transitions;
+- expected accessible name, role, value and state;
+- visible and non-visible instructions or labels;
+- assumptions and edge cases.
 
-The system should load it before generating interface designs, components, pages or test scripts.
+A component without a behaviour contract is incomplete.
 
-### 4. Provide the project sources
+### 3. Generation and design-system alignment
 
-Give the system access to the relevant:
+AI-generated output should:
 
-- design-system documentation and source;
-- brand documentation;
-- templates;
-- framework documentation;
-- package manifest and lockfile;
-- application repository;
-- existing tests and test conventions;
-- accessibility exception or defect register.
+- prefer native HTML and platform semantics before ARIA or custom widgets;
+- preserve approved design-system patterns and brand rules where they support accessibility;
+- avoid creating competing local patterns when an approved pattern already exists;
+- keep implementation traceable to source decisions and the behaviour contract.
 
-The template tells the system how to use these materials, but it cannot inspect information that has not been supplied or connected.
+### 4. Validation and evidence
 
-### 5. Request the artefact and its evidence together
+Every generated feature should be paired with evidence, including:
 
-For example:
+- automated accessibility checks using the pinned axe configuration;
+- behavioural assertions for keyboard interaction, focus management and state changes;
+- manual checks for visible labels, structure, focus visibility, zoom, reflow and error recovery;
+- escalation to assistive-technology testing when a custom widget or critical journey creates a material risk.
 
-> Create a date-picker component using the configured framework and design system. Include its accessible behaviour contract, implementation, automated accessibility tests, manual tests that do not require a screen reader, and any AT validation still required.
+Do not treat an axe pass as proof of WCAG conformance on its own.
 
-The template is designed to keep implementation and accessibility evidence together. Asking for code alone weakens that control.
+### 5. Human review and escalation
 
-## Expected output
+Human input is required whenever meaning or context cannot be inferred reliably. The team should explicitly flag these items and stop short of claiming correctness when the answer depends on human judgement.
 
-For each generated artefact, the model should provide a proportionate version of:
+Examples include:
 
-1. scope and assumptions;
-2. source and pattern decision;
-3. accessible behaviour contract;
-4. design or code implementation;
-5. automated test script;
-6. manual test script requiring no screen reader;
-7. coverage and traceability matrix;
-8. known limitations, assistive-technology escalation tests and residual risks.
+- whether a label, instruction or textual equivalent is meaningful to its target users;
+- whether a visible or hidden label accurately reflects the interface’s purpose;
+- whether an accessible name is business-accurate rather than just technically valid;
+- whether a design-system or brand decision conflicts with accessibility goals and needs product approval;
+- whether a complex interaction requires assistive-technology validation.
 
-The level of detail scales with the work. A button does not need a website-scale report, but it still needs its expected name, role, state, keyboard behaviour, visual states and relevant tests.
+### 6. Monitoring and reporting for accessibility programmes
 
-## Testing model
+To improve monitoring and reporting for accessibility programmes, the team should capture structured audit events, evidence and review outcomes across projects. The following are recommended:
 
-### Automated testing
+- Log structured events for behavior contracts, implementation generation, test runs, human reviews and test outcomes.
+- Keep evidence artefacts alongside the PR, issue or evidence register, including automated reports, screenshots and manual-test notes.
+- Maintain a review register for human actions and decisions.
+- Track patterns across projects, including recurring failure types and unresolved accessibility risks.
+- Publish a small set of programme metrics to product and accessibility stakeholders:
+  - percentage of generated artefacts with complete behaviour contracts;
+  - percentage of PRs with automated accessibility checks;
+  - pass/fail trend for axe rule sets;
+  - number of open human-review items;
+  - average time to resolve review items;
+  - number of critical journeys requiring AT testing.
 
-The template requires more than a default axe scan. Depending on the artefact, generated automated tests should cover:
+This supports a shift-left model: accessibility work starts earlier and becomes visible earlier in the pipeline rather than being delayed until a late-stage audit.
 
-- stable and non-default UI states;
-- expected roles and accessible names;
-- keyboard interaction;
-- focus movement and restoration;
-- state and property changes;
-- errors and status messages;
-- loading, empty, disabled and success states;
-- responsive and user-preference behaviour where automation is reliable.
+## Quick-start checklist
 
-The project’s installed axe version must be pinned and reported. WCAG 2.2 A/AA rules that are disabled by default may need to be enabled explicitly. AAA-only rules are excluded from the required gate. Axe best-practice rules should be run and reported separately from WCAG failures.
+- [ ] Copy the template into a configured project file.
+- [ ] Load `AGENTS.md` into the agent or RAG context.
+- [ ] Confirm framework, design system, brand constraints and supported platforms.
+- [ ] Generate a behaviour contract before implementation.
+- [ ] Run automated accessibility and behavioural tests in CI.
+- [ ] Open human-review items for any contextual or label ambiguities.
+- [ ] Retain evidence and audit logs for each generated artefact.
+- [ ] Review accessibility metrics regularly with engineering and product owners.
 
-### Manual testing without a screen reader
+## Versioning, changelog and trust checks
 
-The manual script covers areas that require human judgement or observation, including:
+`AGENTS.md` includes version, review and changelog metadata so automation can validate that the policy is current before acting on it. When repository rules change, the version should be incremented and the changelog updated.
 
-- keyboard-only operation;
-- focus visibility and management;
-- accessible names, roles, values and states in browser developer tools;
-- heading, landmark, list and table structure;
-- visible labels, instructions and error recovery;
-- zoom, reflow and text spacing;
-- colour and non-text contrast;
-- forced colours and display preferences;
-- reduced motion, timing and animation;
-- pointer, touch and target behaviour;
-- orientation, responsive layouts and content stress;
-- complete page and process checks.
+This allows engineering teams to build guardrails into their pipelines instead of relying on ad hoc prompting.
 
-These checks examine foundations that affect screen-reader UX, but they do not prove what a screen reader announces or how efficiently a user can navigate the interface.
+## Governance and ownership
 
-### Assistive-technology escalation
-
-The template requires real assistive-technology testing when actual interoperability or spoken behaviour is a material risk. Examples include:
-
-- custom ARIA composite widgets;
-- live regions and asynchronous announcements;
-- complex focus management;
-- virtualised content;
-- dialogs, comboboxes, grids, trees, menus and carousels;
-- canvas or custom-rendered controls;
-- unusual accessible-name computation;
-- conflicting compatibility evidence;
-- critical user journeys.
-
-The model must specify the required screen reader, browser, operating system, task and expected user outcome. It must not fabricate a pass result.
-
-## Resolving contradictions
-
-Trusted sources can disagree because they address different contexts, were tested against different platform versions or represent different kinds of authority.
-
-The template resolves a disagreement by:
-
-1. defining the exact decision in dispute;
-2. classifying each claim as a WCAG requirement, best practice, local rule or compatibility evidence;
-3. checking whether the advice applies to the same pattern, state and platform;
-4. checking the currency of the evidence;
-5. applying the source hierarchy;
-6. preferring native behaviour where it meets the need;
-7. comparing viable variants through automated, manual and assistive-technology tests;
-8. documenting the selected approach and residual risk.
-
-Testing can show which approach is preferred for a defined user task and support matrix. It cannot prove that one implementation is universally optimal.
-
-## Requirement classifications
-
-The template keeps different obligations visible:
-
-| Classification | Meaning |
-|---|---|
-| `WCAG-A-AA` | Directly supports an applicable WCAG 2.2 A or AA success criterion |
-| `UX-BEST-PRACTICE` | Improves accessibility or usability beyond the stated conformance requirement |
-| `DESIGN-SYSTEM-REQUIREMENT` | Approved local component, token or interaction rule |
-| `BRAND-REQUIREMENT` | Approved visual, verbal or expressive brand rule |
-| `FRAMEWORK-REQUIREMENT` | Necessary for correct technical implementation |
-| `COMPATIBILITY-EVIDENCE` | Browser, device or assistive-technology support information |
-| `RESEARCH-REQUIRED` | A material question cannot be resolved from available evidence |
-
-This prevents useful guidance from being misrepresented as a WCAG obligation.
-
-## Suggested repository structure
-
-```text
-/
-├── README.md
-├── Accessible_Generation_and_Testing_RAG_Template.md
-├── configured/
-│   └── Accessible_Generation_and_Testing_RAG_Project.md
-├── decisions/
-│   └── ADR-A11Y-001.md
-├── evidence/
-│   └── README.md
-└── examples/
-    └── example-component-output.md
-```
-
-Keep generated test files in the application’s established test structure rather than duplicating them in this documentation repository.
-
-## Governance and maintenance
-
-Review the configured RAG document when:
-
-- WCAG guidance changes;
-- the installed axe version changes;
-- the JavaScript framework is upgraded;
-- the UX design system or brand system changes;
-- supported browsers, operating systems or devices change;
-- new compatibility evidence affects an adopted technique;
-- an accessibility defect reveals a gap in the generation rules;
-- an exception reaches its review or expiry date.
-
-Use the template’s source review log, adopted best-practice register and approved-exception register to preserve decision history.
-
-An exception does not turn a WCAG failure into a pass. It records a known non-conformance, its user impact, ownership, compensating measure and expiry.
-
-## Recommended ownership
-
-The document works best when ownership is shared across:
+The template works best when ownership is shared across:
 
 - accessibility;
 - design systems;
@@ -313,16 +167,23 @@ The document works best when ownership is shared across:
 - quality assurance;
 - product governance.
 
-One named owner should remain accountable for versioning and review, while domain owners approve changes affecting their systems.
+One named owner should remain accountable for versioning and review, while domain owners approve changes that affect their systems.
+
+## Status
+
+This README describes the configured operational use of the template. It is intended to support both human-led and AI-assisted work, and to make accessibility evidence visible early in the engineering lifecycle rather than as a last-step compliance activity.
+
+For more details, read:
+
+- [`Accessible_Generation_and_Testing_RAG_Template.md`](./Accessible_Generation_and_Testing_RAG_Template.md)
+- [`AGENTS.md`](./AGENTS.md)
+
+---
 
 ## Licence
 
-Add the licence appropriate to the organisation and repository:
+Add the licence appropriate to the organisation and repository.
 
 `{{LICENCE_NAME_AND_LINK}}`
 
 Check the individual terms of referenced external sources before reproducing their examples. Linking to guidance does not transfer its licence to this project.
-
-## Status
-
-This README describes the initial reusable template. Configure and validate the template against a real project before treating it as an operational quality gate.
