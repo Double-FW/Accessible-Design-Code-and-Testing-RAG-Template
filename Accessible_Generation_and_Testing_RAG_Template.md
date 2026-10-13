@@ -937,26 +937,6 @@ A code change is incomplete when its accessibility evidence remains stale.
 
 ---
 
-# Appendix A — Project-specific adopted best practices
-
-Add only reviewed local decisions. Do not use this section to relabel best practice as WCAG.
-
-| ID | Practice | Source | Reason adopted | Applies to | Owner | Review date |
-|---|---|---|---|---|---|---|
-| `BP-{{NUMBER}}` | `{{PRACTICE}}` | `{{URL}}` | `{{RATIONALE}}` | `{{SCOPE}}` | `{{OWNER}}` | `{{DATE}}` |
-
-# Appendix B — Approved exceptions
-
-| Exception ID | Affected artefact | Requirement | User impact | Rationale | Compensating measure | Owner | Expiry | Retest trigger |
-|---|---|---|---|---|---|---|---|---|
-| `EX-{{NUMBER}}` | `{{ARTEFACT}}` | `{{REQUIREMENT}}` | `{{IMPACT}}` | `{{RATIONALE}}` | `{{MEASURE}}` | `{{OWNER}}` | `{{DATE}}` | `{{TRIGGER}}` |
-
-# Appendix C — Source review log
-
-| Source | Version or access date | Material change | Action taken | Reviewer |
-|---|---|---|---|---|
-| `{{SOURCE}}` | `{{VERSION_OR_DATE}}` | `{{CHANGE_OR_NONE}}` | `{{ACTION}}` | `{{REVIEWER}}` |
-
-# Appendix D — Foundational principle
+# Appendix — Foundational principle
 
 Accessibility quality emerges from observable behaviour, semantic structure, resilient implementation, clear content and human evaluation. Automated tooling is essential evidence, but it is neither the whole method nor a conformance certificate.
